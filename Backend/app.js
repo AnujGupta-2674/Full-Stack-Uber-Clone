@@ -6,10 +6,12 @@ const app = express();
 const port = 4000;
 const connectToDb = require("./db/db");
 const userRoutes = require("./routes/user.routes");
+const cookieParser = require("cookie-parser");
 
 connectToDb();
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
