@@ -1,26 +1,40 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { UserDataContext } from "../context/UserContext"
 
 const UserSignup = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userData, setUserData] = useState({});
 
-    const submitHandler = (e) => {
+    const navigate = useNavigate();
+
+    const { user, setUser } = useContext(UserDataContext);
+
+    const submitHandler = async (e) => {
         e.preventDefault();
-        setUserData({
+        const newUser = {
             fullname: {
-                firstName: firstName,
-                lastName: lastName,
+                firstname: firstName,
+                lastname: lastName,
             },
             email: email,
             password: password
-        });
+        };
 
-        // console.log(userData);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser);
 
+        if (response.status === 201) {
+            const data = response.data;
+
+            setUser(data.user)
+
+            localStorage.setItem('token', data.token)
+
+            navigate('/home')
+        }
 
         setFirstName('')
         setLastName('')
@@ -58,7 +72,7 @@ const UserSignup = () => {
                             setPassword(e.target.value)
                         }} />
 
-                        <button className='w-full mt-4 bg-[#111] text-white px-4 py-2 rounded font-semibold'>SignUp</button>
+                        <button className='w-full mt-4 bg-[#111] text-white px-4 py-2 rounded font-semibold'>Create Account</button>
                     </form>
 
                     <p className='text-center mt-5'>Already have a account? <Link className='text-blue-600' to={"/login"}>Login here</Link></p>
