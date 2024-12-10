@@ -1,12 +1,45 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CaptainDetails from '../components/CaptainDetails';
 import RidePopUp from '../components/RidePopUp';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 
 // test_cap@email.com
 // test_cap_pass
 
 const CaptainHome = () => {
+    const [ridePopupPanel, setRidePopupPanel] = useState(true);
+    const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
+
+    const ridePopupPanelRef = useRef(null);
+    const confirmRidePopupPanelRef = useRef(null);
+
+    useGSAP(function () {
+        if (ridePopupPanel) {
+            gsap.to(ridePopupPanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(ridePopupPanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [ridePopupPanel])
+
+    useGSAP(function () {
+        if (confirmRidePopupPanel) {
+            gsap.to(confirmRidePopupPanelRef.current, {
+                transform: 'translateY(0)'
+            })
+        } else {
+            gsap.to(confirmRidePopupPanelRef.current, {
+                transform: 'translateY(100%)'
+            })
+        }
+    }, [confirmRidePopupPanel])
+
     return (
         <div className='h-screen'>
 
@@ -26,8 +59,12 @@ const CaptainHome = () => {
                 <CaptainDetails />
             </div>
 
-            <div className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
-                <RidePopUp />
+            <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
+                <RidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+            </div>
+
+            <div ref={confirmRidePopupPanelRef} className='fixed h-screen w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
+                <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
             </div>
 
         </div>

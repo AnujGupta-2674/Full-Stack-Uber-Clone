@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function RidePopUp(props) {
+function FinishRide(props) {
     return (
         <div>
-            <h5 onClick={() => props.setRidePopupPanel(false)} className='p-1 text-center w-[93%] absolute top-0'><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
-            <h3 className='text-2xl font-semibold mb-5'>New Ride Available</h3>
+            <h5 onClick={() => props.setFinishRidePanel(false)} className='p-1 text-center w-[93%] absolute top-0'><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i></h5>
+            <h3 className='text-2xl font-semibold mb-5'>Finish this Ride</h3>
 
-            <div className='flex items-center justify-between bg-yellow-400 rounded-xl p-3 mt-4'>
+            <div className='flex border-2 items-center justify-between border-yellow-400 rounded-xl p-4 mt-4'>
                 <div className='flex items-center gap-3'>
                     <img className='h-12 w-12 rounded-full object-cover' src="https://imgs.search.brave.com/y59SZ4weq5o7U0WAOifBj0CaMQQKqoy3YaPaNH24VEQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/dGhlcmVzLWEtcHVi/bGljbHktYXZhaWxh/YmxlLWFpLW1vZGVs/LXdoaWNoLWNhbi1n/ZW5lcmF0ZS12MC14/NjViYnhkb3NrYjkx/LmpwZz93aWR0aD02/NDAmY3JvcD1zbWFy/dCZhdXRvPXdlYnAm/cz03OTU0ZDgyNGUy/N2MzMDZiYjA1OGY2/MmNhOTM4OGQ5MWIx/NmE5NjI5" alt="" />
                     <h2 className='text-lg font-medium'>Test_passenger</h2>
@@ -44,20 +45,17 @@ function RidePopUp(props) {
 
                 </div>
 
-                <div className='flex w-full items-center justify-between mt-5'>
+                <div className='mt-6 w-full'>
 
-                    <button onClick={() => {
-                        props.setConfirmRidePopupPanel(true)
-                    }} className='w-full bg-green-600 text-white font-semibold p-3 px-10 rounded-lg'>Accept</button>
+                    <Link to='/captain-home' className='w-full flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg mt-1'>Finish Ride</Link>
 
-                    <button onClick={() => {
-                        props.setRidePopupPanel(false)
-                    }} className='w-full bg-gray-300 text-gray-700 font-semibold p-3 px-10 rounded-lg mt-1'>Ignore</button>
+                    <p className='mt-10 text-red-500 text-xs'>Click on finish ride button if you have completed the payment.</p>
 
                 </div>
+
             </div>
         </div>
     );
 }
 
-export default RidePopUp;
+export default FinishRide;
