@@ -28,6 +28,7 @@ const Home = () => {
     const [pickupSuggestions, setPickupSuggestions] = useState([]);
     const [destinationSuggestions, setDestinationSuggestions] = useState([]);
     const [activeField, setActiveField] = useState(null);
+    const [fare, setFare] = useState({});
 
     const handlePickupChange = async (e) => {
         setPickup(e.target.value)
@@ -135,6 +136,24 @@ const Home = () => {
         }
     }, [waitingForDriver])
 
+    async function findTrip() {
+        setVehiclePanel(true);
+        setPanelOpen(false);
+
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/get-fare`, {
+                params: { pickup, destination },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            setFare(response.data);
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     return (
         <>
             <div className='h-screen relative overflow-hidden'>
@@ -178,7 +197,7 @@ const Home = () => {
                                 type="text"
                                 placeholder='Enter your destination' />
                         </form>
-                        {panelOpen && <button className='w-full mt-3 px-4 py-2 bg-green-500'>Find a Trip</button>}
+                        {panelOpen && <button className='w-full mt-4 px-4 py-2 bg-[#111] text-white' onClick={findTrip}>Find a Trip</button>}
                     </div>
 
                     <div ref={panelRef} className='bg-white h-0 pt-4'>
@@ -195,7 +214,7 @@ const Home = () => {
                 </div>
 
                 <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
-                    <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+                    <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
                 </div>
 
                 <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6 translate-y-full'>
