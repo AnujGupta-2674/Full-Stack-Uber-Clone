@@ -3,7 +3,6 @@ dotenv.config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const port = 4000;
 const connectToDb = require("./db/db");
 const userRoutes = require("./routes/user.routes");
 const cookieParser = require("cookie-parser");
@@ -27,6 +26,4 @@ app.use("/captains", captainRoutes);
 app.use("/maps", mapsRoutes);
 app.use("/rides", rideRoutes);
 
-app.listen(port, () => {
-    console.log(`App is listening on port ${port}`);
-});
+module.exports = app;

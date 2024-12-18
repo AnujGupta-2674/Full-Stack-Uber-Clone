@@ -9,6 +9,7 @@ const VehiclePanel = (props) => {
 
             <div onClick={() => {
                 props.setConfirmRidePanel(true)
+                props.setVehicleType('car')
             }} className='flex active:border-black border-2  rounded-xl mb-2 w-full p-3 items-center bg-gray-100 justify-between'>
                 <img className='h-12' src="https://imgs.search.brave.com/r5LpautcabQ5IYX_j6o8dNrzoaEl4WvFKmetAPZz4wc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG5ncGxheS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzgvVWJl/ci1QTkctUGhvdG9z/LnBuZw" alt="Car" />
 
@@ -23,6 +24,7 @@ const VehiclePanel = (props) => {
 
             <div onClick={() => {
                 props.setConfirmRidePanel(true)
+                props.setVehicleType('auto')
             }} className='flex border-2 active:border-black rounded-xl mb-2 w-full p-3 items-center justify-between bg-gray-100'>
                 <img className='h-12' src="https://imgs.search.brave.com/M80ekhuOQtpOR99O0a2encmAioFbRriXRfpucXVNIkI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbHVz/cG5nLmNvbS9pbWct/cG5nL2F1dG8tcmlj/a3NoYXctcG5nLXJp/Y2tzaGF3LWluZGlh/LXRyYW5zcG9ydC10/YXhpLWFzaWFuLWF1/dG9yaWNrc2hhdy05/NjAucG5n" alt="Auto Rickshaw" />
 
@@ -37,6 +39,7 @@ const VehiclePanel = (props) => {
 
             <div onClick={() => {
                 props.setConfirmRidePanel(true)
+                props.setVehicleType('moto');
             }} className='flex border-2 active:border-black rounded-xl mb-2 w-full p-3 items-center bg-gray-100 justify-between'>
                 <img className='h-12' src="https://imgs.search.brave.com/8ZCmrYSjDsVn0Cr6OscktE-YjZmsvPuQLkrro9bAmyM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pMC53/cC5jb20vc3JlZGl0/aW5nem9uZS5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMTgv/MDEvQmlrZS1QTkct/Qnktc3ItZWRpdGlu/Zy16b25lLTItMS5w/bmc_cmVzaXplPTUw/MCw0MTkmc3NsPTE" alt="bike" />
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css';
@@ -8,6 +8,8 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from '../components/WaitingForDriver';
 import axios from "axios";
+import { SocketContext } from '../context/SocketProvider';
+import { UserDataContext } from "../context/UserContext";
 
 const Home = () => {
     const [pickup, setPickup] = useState('');
@@ -29,6 +31,14 @@ const Home = () => {
     const [destinationSuggestions, setDestinationSuggestions] = useState([]);
     const [activeField, setActiveField] = useState(null);
     const [fare, setFare] = useState({});
+    const [vehicleType, setVehicleType] = useState(null);
+
+    const { socket } = useContext(SocketContext);
+    const { user } = useContext(UserDataContext);
+
+    useEffect(() => {
+        socket.emit("join", { userType: 'user', userId: user._id });
+    }, [user]);
 
     const handlePickupChange = async (e) => {
         setPickup(e.target.value)
@@ -40,7 +50,6 @@ const Home = () => {
                 }
 
             })
-            console.log(response.data);
             setPickupSuggestions(response.data)
         } catch (err) {
             console.log(err)
@@ -154,6 +163,20 @@ const Home = () => {
         }
     }
 
+    async function createRide() {
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/create`, {
+            pickup,
+            destination,
+            vehicleType
+        }, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+
+        console.log(response.data);
+    }
+
     return (
         <>
             <div className='h-screen relative overflow-hidden'>
@@ -214,19 +237,23 @@ const Home = () => {
                 </div>
 
                 <div ref={vehiclePanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
-                    <VehiclePanel fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+                    <VehiclePanel setVehicleType={setVehicleType} fare={fare} setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
                 </div>
 
                 <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6 translate-y-full'>
-                    <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+                    <ConfirmRide createRide={createRide}
+                        pickup={pickup} destination={destination}
+                        fare={fare}
+                        vehicleType={vehicleType}
+                        setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
                 </div>
 
-                <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6'>
+                <div ref={vehicleFoundRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6 translate-y-full'>
                     <LookingForDriver setVehicleFound={setVehicleFound}
-                        setVehiclePanel={setVehiclePanel} />
+                        setVehiclePanel={setVehiclePanel} pickup={pickup} destination={destination} fare={fare} vehicleType={vehicleType} />
                 </div>
 
-                <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6'>
+                <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6 translate-y-full'>
                     <WaitingForDriver waitingForDriver={waitingForDriver} />
                 </div>
 
