@@ -24,7 +24,7 @@ function CaptainDetails() {
                 </div>
 
                 <div className='text-center'>
-                    <i class="text-2xl font-thin ri-speed-up-fill"></i>
+                    <i className="text-2xl font-thin ri-speed-up-fill"></i>
                     <h5 className='text-lg font-medium'>10.2</h5>
                     <p className='text-sm text-gray-600'>Hours Online</p>
                 </div>
