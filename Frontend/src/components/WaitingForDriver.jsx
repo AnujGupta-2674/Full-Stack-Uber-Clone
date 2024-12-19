@@ -14,9 +14,10 @@ const WaitingForDriver = (props) => {
 
                 <div className='text-right'>
 
-                    <h2 className='text-lg font-medium'>Anuj</h2>
-                    <h4 className='text-xl font-semibold -mt-1 -mb-1'>MH04 AG 2674</h4>
+                    <h2 className='text-lg font-medium capitalize'>{props.ride?.captain.fullname.firstname}</h2>
+                    <h4 className='text-xl font-semibold -mt-1 -mb-1'>{props.ride?.captain.vehicle.plate}</h4>
                     <p className='text-sm text-gray-600'>Maruti Suzuki Ertiga</p>
+                    <h1 className='text-lg font-semibold'>{props.ride?.otp}</h1>
 
                 </div>
 
@@ -31,23 +32,23 @@ const WaitingForDriver = (props) => {
                     <div className='flex items-center gap-5 p-3 border-b-2'>
                         <i className="text-lg ri-map-pin-line"></i>
                         <div>
-                            <h3 className='text-lg font-medium'>202/6</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>Gauri Shankar Wadi No:-2, Mumbai</p>
+                            <h3 className='text-lg font-medium'>Pickup</h3>
+                            <p className='text-sm -mt-1 text-gray-600'>{props.ride?.pickup}</p>
                         </div>
                     </div>
 
                     <div className='flex items-center gap-5 p-3 border-b-2'>
                         <i className="text-lg ri-map-pin-fill"></i>
                         <div>
-                            <h3 className='text-lg font-medium'>D-11/Sec-5</h3>
-                            <p className='text-sm -mt-1 text-gray-600'>Kandiwali West, Mumbai</p>
+                            <h3 className='text-lg font-medium'>Destination</h3>
+                            <p className='text-sm -mt-1 text-gray-600'>{props.ride?.destination}</p>
                         </div>
                     </div>
 
                     <div className='flex items-center gap-5 p-3'>
                         <i className="text-lg ri-map-pin-line"></i>
                         <div>
-                            <h3 className='text-lg font-medium'>$193.20</h3>
+                            <h3 className='text-lg font-medium'>${props.ride?.fare}</h3>
                             <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
                         </div>
                     </div>

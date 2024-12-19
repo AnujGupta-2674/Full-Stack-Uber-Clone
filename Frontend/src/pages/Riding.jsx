@@ -1,7 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { SocketContext } from '../context/SocketProvider';
+import LiveTracking from '../components/LiveTracking';
 
 function Riding() {
+    const location = useLocation();
+    const { ride } = location.state || {}
+    const {socket}=useContext(SocketContext)
+    const navigate=useNavigate();
+
+    socket.on("ride-ended",()=>{
+        navigate('/home');
+    })
+
     return (
         <>
             <div className='h-screen'>
@@ -13,7 +25,7 @@ function Riding() {
                 </Link>
 
                 <div className='h-1/2'>
-                    <img className='h-full w-full object-cover' src="https://imgs.search.brave.com/oaHyBWG8fmC61RQUBizJ5ru-LjKVxVY1WkmwaBoJO8I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmRh/aWx5bWFpbC5jby51/ay9pL3BpeC8yMDE1/LzA3LzI4LzIzLzJB/RUE4NTk0MDAwMDA1/NzgtMC1pbWFnZS1h/LTdfMTQzODEyMTc4/OTUwNy5qcGc" alt="map" />
+                   <LiveTracking/>
                 </div>
 
                 <div className='h-1/2 p-4'>
@@ -23,8 +35,8 @@ function Riding() {
 
                         <div className='text-right'>
 
-                            <h2 className='text-lg font-medium'>Anuj</h2>
-                            <h4 className='text-xl font-semibold -mt-1 -mb-1'>MH04 AG 2674</h4>
+                            <h2 className='text-lg font-medium'>{ride?.captain.fullname.firstname}</h2>
+                            <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.vehicle.plate}</h4>
                             <p className='text-sm text-gray-600'>Maruti Suzuki Ertiga</p>
 
                         </div>
@@ -40,15 +52,15 @@ function Riding() {
                             <div className='flex items-center gap-5 p-3 border-b-2'>
                                 <i className="text-lg ri-map-pin-fill"></i>
                                 <div>
-                                    <h3 className='text-lg font-medium'>D-11/Sec-5</h3>
-                                    <p className='text-sm -mt-1 text-gray-600'>Kandiwali West, Mumbai</p>
+                                    <h3 className='text-lg font-medium'>Destination</h3>
+                                    <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
                                 </div>
                             </div>
 
                             <div className='flex items-center gap-5 p-3'>
                                 <i className="text-lg ri-map-pin-line"></i>
                                 <div>
-                                    <h3 className='text-lg font-medium'>$193.20</h3>
+                                    <h3 className='text-lg font-medium'>{ride?.fare}</h3>
                                     <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
                                 </div>
                             </div>

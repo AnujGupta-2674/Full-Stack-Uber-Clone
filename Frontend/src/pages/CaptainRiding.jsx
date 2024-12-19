@@ -1,13 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import FinishRide from '../components/FinishRide';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import LiveTracking from '../components/LiveTracking';
 
 const CaptainRiding = () => {
     const [finishRidePanel, setFinishRidePanel] = useState(false)
-
     const finishRidePanelRef = useRef(null);
+    const location = useLocation();
+    const ride = location.state?.ride;
 
     useGSAP(function () {
         if (finishRidePanel) {
@@ -25,7 +27,7 @@ const CaptainRiding = () => {
         <div>
             <div className='h-screen relative'>
                 <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
-                    <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+                   <LiveTracking/>
                     <Link to='/captain-login' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
                         <i className="text-lg font-medium ri-logout-box-r-line"></i>
                     </Link>
@@ -46,7 +48,7 @@ const CaptainRiding = () => {
                 </div>
 
                 <div ref={finishRidePanelRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
-                    <FinishRide setFinishRidePanel={setFinishRidePanel} />
+                    <FinishRide setFinishRidePanel={setFinishRidePanel} ride={ride} />
                 </div>
 
             </div>

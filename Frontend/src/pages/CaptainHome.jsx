@@ -9,9 +9,7 @@ import { useEffect, useContext } from 'react';
 import { SocketContext } from '../context/SocketProvider';
 import { CaptainDataContext } from '../context/CaptainContext';
 import axios from 'axios';
-
-// test_cap@email.com
-// test_cap_pass
+import LiveTracking from '../components/LiveTracking';
 
 const CaptainHome = () => {
     const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -105,7 +103,7 @@ const CaptainHome = () => {
             </div>
 
             <div className='h-3/5'>
-                <img className='h-full w-full object-cover' src="https://imgs.search.brave.com/oaHyBWG8fmC61RQUBizJ5ru-LjKVxVY1WkmwaBoJO8I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmRh/aWx5bWFpbC5jby51/ay9pL3BpeC8yMDE1/LzA3LzI4LzIzLzJB/RUE4NTk0MDAwMDA1/NzgtMC1pbWFnZS1h/LTdfMTQzODEyMTc4/OTUwNy5qcGc" alt="map" />
+               <LiveTracking></LiveTracking>
 
             </div>
 
@@ -118,7 +116,7 @@ const CaptainHome = () => {
             </div>
 
             <div ref={confirmRidePopupPanelRef} className='fixed h-screen w-full z-10 bottom-0 pt-12 bg-white px-3 py-10 translate-y-full'>
-                <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
+                <ConfirmRidePopUp setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} ride={ride} />
             </div>
 
         </div>

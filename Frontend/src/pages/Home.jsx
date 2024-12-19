@@ -10,6 +10,8 @@ import WaitingForDriver from '../components/WaitingForDriver';
 import axios from "axios";
 import { SocketContext } from '../context/SocketProvider';
 import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from 'react-router-dom';
+import LiveTracking from '../components/LiveTracking';
 
 const Home = () => {
     const [pickup, setPickup] = useState('');
@@ -34,6 +36,7 @@ const Home = () => {
     const [vehicleType, setVehicleType] = useState(null);
     const [ride, setRide] = useState(null);
 
+    const navigate = useNavigate();
     const { socket } = useContext(SocketContext);
     const { user } = useContext(UserDataContext);
 
@@ -45,6 +48,12 @@ const Home = () => {
         setVehicleFound(false)
         setWaitingForDriver(true)
         setRide(ride)
+    })
+
+    socket.on('ride-started', ride => {
+        console.log(ride)
+        setWaitingForDriver(false)
+        navigate('/riding', { state: { ride } })
     })
 
     const handlePickupChange = async (e) => {
@@ -187,11 +196,11 @@ const Home = () => {
     return (
         <>
             <div className='h-screen relative overflow-hidden'>
-                <img className='w-16 absolute left-5 top-5' src="https://imgs.search.brave.com/FZq7YFqzVbkjhipVXmxfaZY-RmPwy3wsG0WV1UdM8bs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/cy13b3JsZC5uZXQv/d3AtY29udGVudC91/cGxvYWRzLzIwMjAv/MDUvVWJlci1Mb2dv/LTcwMHgzOTQucG5n" alt="logo" />
+                <LiveTracking/>
 
                 <div className='h-screen w-screen'>
                     {/* image for temporary use */}
-                    <img className='h-full w-full object-cover' src="https://imgs.search.brave.com/oaHyBWG8fmC61RQUBizJ5ru-LjKVxVY1WkmwaBoJO8I/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmRh/aWx5bWFpbC5jby51/ay9pL3BpeC8yMDE1/LzA3LzI4LzIzLzJB/RUE4NTk0MDAwMDA1/NzgtMC1pbWFnZS1h/LTdfMTQzODEyMTc4/OTUwNy5qcGc" alt="map" />
+                    <LiveTracking></LiveTracking>
                 </div>
 
                 <div className='flex flex-col justify-end absolute top-0 w-full h-screen'>
@@ -261,7 +270,7 @@ const Home = () => {
                 </div>
 
                 <div ref={waitingForDriverRef} className='fixed w-full z-10 bottom-0 pt-12 bg-white px-3 py-6 translate-y-full'>
-                    <WaitingForDriver waitingForDriver={waitingForDriver} />
+                    <WaitingForDriver waitingForDriver={waitingForDriver} ride={ride} />
                 </div>
 
             </div >
